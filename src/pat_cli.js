@@ -14,112 +14,6 @@ function randomChoice(items) {
 	return items[getRandomInt(0, items.length-1)];
 }
 
-var xkcd = {
-	latest: null,
-	last: null,
-	cache: {},
-	base: 'http://dynamic.xkcd.com/api-0/jsonp/comic/',
-	
-	get: function(num, success, error) {
-		if (num == null) {
-			path = '';
-		} else if (Number(num)) {
-			path = String(num);
-		} else {
-			error(false);
-			return false;
-		}
-		
-		if (num in this.cache) {
-			this.last = this.cache[num];
-			success(this.cache[num]);
-		} else {
-			return $.ajax({
-				url: this.base+path,
-				dataType: 'jsonp',
-				success: $.proxy(function(data) {
-					this.last = this.cache[num] = data;
-					success(data);
-				}, this),
-				error: error});
-		}
-	}
-};
-
-var xkcdDisplay = TerminalShell.commands['display'] = function(terminal, path) {
-	function fail() {
-		terminal.print($('<p>').addClass('error').text('display: unable to open image "'+path+'": No such file or directory.'));
-		terminal.setWorking(false);
-	}
-			
-	if (path) {
-		path = String(path);
-		num = Number(path.match(/^\d+/));
-		filename = pathFilename(path);
-		
-		if (num > xkcd.latest.num) {
-			terminal.print("Time travel mode not enabled.");
-			return;
-		}
-	} else {
-		num = xkcd.last.num;
-	}
-	
-	terminal.setWorking(true);
-	xkcd.get(num, function(data) {
-		if (!filename || (filename == pathFilename(data.img))) {
-			$('<img>')
-				.hide()
-				.load(function() {
-					terminal.print($('<h3>').text(data.num+": "+data.title));
-					$(this).fadeIn();
-					
-					var comic = $(this);
-					if (data.link) {
-						comic = $('<a>').attr('href', data.link).append($(this));
-					}
-					terminal.print(comic);
-					
-					terminal.setWorking(false);
-				})
-				.attr({src:data.img, alt:data.title, title:data.alt})
-				.addClass('comic');
-		} else {
-			fail();
-		}
-	}, fail);
-};
-
-TerminalShell.commands['next'] = function(terminal) {
-	xkcdDisplay(terminal, xkcd.last.num+1);
-};
-
-TerminalShell.commands['previous'] =
-TerminalShell.commands['prev'] = function(terminal) {
-	xkcdDisplay(terminal, xkcd.last.num-1);
-};
-
-TerminalShell.commands['first'] = function(terminal) {
-	xkcdDisplay(terminal, 1);
-};
-
-TerminalShell.commands['latest'] =
-TerminalShell.commands['last'] = function(terminal) {
-	xkcdDisplay(terminal, xkcd.latest.num);
-};
-
-TerminalShell.commands['random'] = function(terminal) {
-	xkcdDisplay(terminal, getRandomInt(1, xkcd.latest.num));
-};
-
-TerminalShell.commands['goto'] = function(terminal, subcmd) {
-	$('#screen').one('cli-ready', function(e) {
-		terminal.print('Did you mean "display"?');
-	});
-	xkcdDisplay(terminal, 292);
-};
-
-
 TerminalShell.commands['sudo'] = function(terminal) {
 	var cmd_args = Array.prototype.slice.call(arguments);
 	cmd_args.shift(); // terminal
@@ -153,7 +47,7 @@ TerminalShell.filters.push(function (terminal, cmd) {
 
 TerminalShell.commands['shutdown'] = TerminalShell.commands['poweroff'] = function(terminal) {
 	if (this.sudo) {
-		terminal.print('Broadcast message from guest@xkcd');
+		terminal.print('Broadcast message from guest@pat');
 		terminal.print();
 		terminal.print('The system is going down for maintenance NOW!');
 		return $('#screen').fadeOut();
@@ -505,10 +399,10 @@ TerminalShell.commands['sleep'] = function(terminal, duration) {
 	}, 1000*duration);
 };
 
-// No peeking!
-TerminalShell.commands['help'] = TerminalShell.commands['halp'] = function(terminal) {
-	terminal.print('That would be cheating!');
-}; 
+//// No peeking!
+//TerminalShell.commands['help'] = TerminalShell.commands['halp'] = function(terminal) {
+//	terminal.print('That would be cheating!');
+//}; 
 
 TerminalShell.fallback = function(terminal, cmd) {
 	oneliners = {
@@ -525,10 +419,7 @@ TerminalShell.fallback = function(terminal, cmd) {
 		'xkcd': 'Yes?',
 		'su': 'God mode activated. Remember, with great power comes great ... aw, screw it, go have fun.',
 		'fuck': 'I have a headache.',
-		'whoami': 'You are Richard Stallman.',
-		'nano': 'Seriously? Why don\'t you just use Notepad.exe? Or MS Paint?',
 		'top': 'It\'s up there --^',
-		'moo':'moo',
 		'ping': 'There is another submarine three miles ahead, bearing 225, forty fathoms down.',
 		'find': 'What do you want to find? Kitten would be nice.',
 		'hello':'Hello.','more':'Oh, yes! More! More!',
@@ -544,12 +435,13 @@ TerminalShell.fallback = function(terminal, cmd) {
 		'enable time travel': 'TARDIS error: Time Lord missing.',
 		'ed': 'You are not a diety.'
 	};
-	oneliners['emacs'] = 'You should really use vim.';
-	oneliners['vi'] = oneliners['vim'] = 'You should really use emacs.';
 	
 	cmd = cmd.toLowerCase();
 	if (!oneLiner(terminal, cmd, oneliners)) {
-		if (cmd == "asl" || cmd == "a/s/l") {
+        if (cmd == "whoami") {
+		    terminal.print($('<p>').html('Who <i>are</i> you?'));
+
+        } else if (cmd == "asl" || cmd == "a/s/l") {
 			terminal.print(randomChoice([
 				'2/AMD64/Server Rack',
 				'328/M/Transylvania',
@@ -560,19 +452,7 @@ TerminalShell.fallback = function(terminal, cmd) {
 				'7,831/F/Lothlórien',
 				'42/M/FBI Field Office'
 			]));
-		} else if  (cmd == "hint") {
-			terminal.print(randomChoice([
- 				'We offer some really nice polos.',
- 				$('<p>').html('This terminal will remain available at <a href="http://xkcd.com/unixkcd/">http://xkcd.com/unixkcd/</a>'),
- 				'Use the source, Luke!',
- 				'There are cheat codes.'
- 			]));
-		} else if (cmd == 'find kitten') {
-			terminal.print($('<iframe width="800" height="600" src="http://www.robotfindskitten.net/rfk.swf"></iframe>'));
-		} else if (cmd == 'buy stuff') {
-			Filesystem['store'].enter();
-		} else if (cmd == 'time travel') {
-			xkcdDisplay(terminal, 630);
+        // fork bomb lmao
 		} else if (/:\(\)\s*{\s*:\s*\|\s*:\s*&\s*}\s*;\s*:/.test(cmd)) {
 			Terminal.setWorking(true);
 		} else {
@@ -583,7 +463,6 @@ TerminalShell.fallback = function(terminal, cmd) {
 	return true;
 };
 
-var konamiCount = 0;
 $(document).ready(function() {
 	Terminal.promptActive = false;
 	function noData() {
@@ -591,51 +470,9 @@ $(document).ready(function() {
 		Terminal.promptActive = true;
 	}
 	$('#screen').bind('cli-load', function(e) {
-		xkcd.get(null, function(data) {
-			if (data) {
-				xkcd.latest = data;
-				$('#screen').one('cli-ready', function(e) {
-					Terminal.runCommand('cat welcome.txt');
-				});
-				Terminal.runCommand('display '+xkcd.latest.num+'/'+pathFilename(xkcd.latest.img));
-			} else {
-				noData();
-			}
-		}, noData);
-	});
-	
-	$(document).konami(function(){
-		function shake(elems) {
-			elems.css('position', 'relative');
-			return window.setInterval(function() {
-				elems.css({top:getRandomInt(-3, 3), left:getRandomInt(-3, 3)});
-			}, 100);	
-		}
-		
-		if (konamiCount == 0) {
-			$('#screen').css('text-transform', 'uppercase');
-		} else if (konamiCount == 1) {
-			$('#screen').css('text-shadow', 'gray 0 0 2px');
-		} else if (konamiCount == 2) {
-			$('#screen').css('text-shadow', 'orangered 0 0 10px');
-		} else if (konamiCount == 3) {
-			shake($('#screen'));
-		} else if (konamiCount == 4) {
-			$('#screen').css('background', 'url(/unixkcd/over9000.png) center no-repeat');
-		}
-		
-		$('<div>')
-			.height('100%').width('100%')
-			.css({background:'white', position:'absolute', top:0, left:0})
-			.appendTo($('body'))
-			.show()
-			.fadeOut(1000);
-		
-		if (Terminal.buffer.substring(Terminal.buffer.length-2) == 'ba') {
-			Terminal.buffer = Terminal.buffer.substring(0, Terminal.buffer.length-2);
-			Terminal.updateInputDisplay();
-		}
-		TerminalShell.sudo = true;
-		konamiCount += 1;
+		$('#screen').one('cli-ready', function(e) {
+			Terminal.runCommand('cat welcome.txt');
+		});
+            Terminal.promptActive = true;
 	});
 });
