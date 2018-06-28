@@ -89,6 +89,7 @@ Filesystem = {
 	'license.txt': {type:'file', read:function(terminal) {
 		terminal.print($('<p>').html('Client-side logic for Wordpress CLI theme :: <a href="http://thrind.xamai.ca/">R. McFarland, 2006, 2007, 2008</a>'));
 		terminal.print($('<p>').html('jQuery rewrite and overhaul :: <a href="http://www.chromakode.com/">Chromakode, 2010</a>'));
+		terminal.print($('<p>').html('dumb modification for my site :: Patrick Nappa 2018'));
 		terminal.print();
 		$.each([
 			'This program is free software; you can redistribute it and/or',
@@ -109,10 +110,9 @@ Filesystem = {
 		});
 	}}
 };
-Filesystem['blog'] = Filesystem['blag'] = linkFile('http://blag.xkcd.com');
-Filesystem['forums'] = Filesystem['fora'] = linkFile('http://forums.xkcd.com/');
-Filesystem['store'] = linkFile('http://store.xkcd.com/');
-Filesystem['about'] = linkFile('http://xkcd.com/about/');
+
+Filesystem['porn'] = linkFile('https://www.pornhub.com')
+Filesystem['about'] = linkFile('//pat.sh/about');
 TerminalShell.pwd = Filesystem;
 
 TerminalShell.commands['cd'] = function(terminal, path) {
@@ -440,18 +440,6 @@ TerminalShell.fallback = function(terminal, cmd) {
 	if (!oneLiner(terminal, cmd, oneliners)) {
         if (cmd == "whoami") {
 		    terminal.print($('<p>').html('Who <i>are</i> you?'));
-
-        } else if (cmd == "asl" || cmd == "a/s/l") {
-			terminal.print(randomChoice([
-				'2/AMD64/Server Rack',
-				'328/M/Transylvania',
-				'6/M/Battle School',
-				'48/M/The White House',
-				'7/F/Rapture',
-				'Exactly your age/A gender you\'re attracted to/Far far away.',
-				'7,831/F/Lothlórien',
-				'42/M/FBI Field Office'
-			]));
         // fork bomb lmao
 		} else if (/:\(\)\s*{\s*:\s*\|\s*:\s*&\s*}\s*;\s*:/.test(cmd)) {
 			Terminal.setWorking(true);
@@ -473,6 +461,6 @@ $(document).ready(function() {
 		$('#screen').one('cli-ready', function(e) {
 			Terminal.runCommand('cat welcome.txt');
 		});
-            Terminal.promptActive = true;
+        Terminal.promptActive = true;
 	});
 });
