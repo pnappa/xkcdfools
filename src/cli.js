@@ -109,7 +109,7 @@ var Terminal = {
 		fg_color:			'#00ff00',
 		cursor_blink_time:	700,
 		cursor_style:		'block',
-		prompt:				'guest@pat: sh $ ',
+		prompt:				'guest@pat.sh $ ',
 		spinnerCharacters:	['|','/','-','\\'],
 		spinnerSpeed:		250,
 		typingSpeed:		50
@@ -234,7 +234,7 @@ var Terminal = {
 			.keyup(function(e) {
 				var keyName = $.hotkeys.specialKeys[e.which];
 				if (keyName in {'ctrl':true, 'alt':true, 'scroll':true}) {
-					Terminal.sticky.toggle(keyName);
+					//Terminal.sticky.toggle(keyName);
 				} else if (!(keyName in {'left':true, 'right':true, 'up':true, 'down':true})) {
 					Terminal.sticky.resetAll();
 				}

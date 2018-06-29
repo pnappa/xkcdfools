@@ -82,9 +82,9 @@ function linkFile(url) {
 
 Filesystem = {
 	'welcome.txt': {type:'file', read:function(terminal) {
-		terminal.print($('<h4>').text('Welcome to the unixkcd console.'));
-		terminal.print('To navigate the comics, enter "next", "prev", "first", "last", "display", or "random".');
+		terminal.print($('<h4>').text('Welcome to pat.sh'));
 		terminal.print('Use "ls", "cat", and "cd" to navigate the filesystem.');
+		terminal.print('Use "help" to see available commands.');
 	}},
 	'license.txt': {type:'file', read:function(terminal) {
 		terminal.print($('<p>').html('Client-side logic for Wordpress CLI theme :: <a href="http://thrind.xamai.ca/">R. McFarland, 2006, 2007, 2008</a>'));
@@ -146,16 +146,6 @@ TerminalShell.commands['cat'] = function(terminal, path) {
 		} else if (this.pwd[path].type == 'dir') {
 			terminal.print('cat: '+path+': Is a directory');
 		}
-	} else if (pathFilename(path) == 'alt.txt') {
-		terminal.setWorking(true);
-		num = Number(path.match(/^\d+/));
-		xkcd.get(num, function(data) {
-			terminal.print(data.alt);
-			terminal.setWorking(false);
-		}, function() {
-			terminal.print($('<p>').addClass('error').text('cat: "'+path+'": No such file or directory.'));
-			terminal.setWorking(false);
-		});
 	} else {
 		terminal.print('You\'re a kitty!');
 	}
@@ -184,20 +174,6 @@ TerminalShell.commands['rm'] = function(terminal, flags, path) {
 			terminal.print('rm: cannot remove /: Permission denied');
 		}
 	}
-};
-
-TerminalShell.commands['cheat'] = function(terminal) {
-	terminal.print($('<a>').text('*** FREE SHIPPING ENABLED ***').attr('href', 'http://store.xkcd.com/'));
-}; 
-
-TerminalShell.commands['reddit'] = function(terminal, num) {
-	num = Number(num);
-	if (num) {
-		url = 'http://xkcd.com/'+num+'/';
-	} else {
-		var url = window.location;
-	}
-	terminal.print($('<iframe src="http://www.reddit.com/static/button/button1.html?width=140&url='+encodeURIComponent(url)+'&newwindow=1" height="22" width="140" scrolling="no" frameborder="0"></iframe>'));
 };
 
 TerminalShell.commands['wget'] = TerminalShell.commands['curl'] = function(terminal, dest) {
