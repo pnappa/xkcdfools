@@ -27,8 +27,6 @@ TerminalShell.commands['sudo'] = function(terminal) {
 			this.sudo = true;
 			this.commands[cmd_name].apply(this, cmd_args);
 			delete this.sudo;
-		} else if (!cmd_name) {
-			terminal.print('sudo what?');
 		} else {
 			terminal.print('sudo: '+cmd_name+': command not found');
 		}
@@ -138,6 +136,11 @@ TerminalShell.commands['ls'] = function(terminal, path) {
 	});
 	terminal.print(name_list);
 };
+
+TerminalShell.commands['sl'] = function(terminal, flags) {
+    // TODO: different types of sl flags (-a, -lh, etc etc)
+    terminal.print($('<div id="sl" style="width:80ch; display:inline-block; word-wrap:break-word;">').append($('<p>').text('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')));
+}
 
 TerminalShell.commands['cat'] = function(terminal, path) {
 	if (path in this.pwd) {
