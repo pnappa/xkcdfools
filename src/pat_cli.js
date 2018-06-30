@@ -27,6 +27,8 @@ TerminalShell.commands['sudo'] = function(terminal) {
 			this.sudo = true;
 			this.commands[cmd_name].apply(this, cmd_args);
 			delete this.sudo;
+        } else if (!cmd_name) {
+            terminal.print('usage: sudo <command>');
 		} else {
 			terminal.print('sudo: '+cmd_name+': command not found');
 		}
@@ -137,9 +139,114 @@ TerminalShell.commands['ls'] = function(terminal, path) {
 	terminal.print(name_list);
 };
 
+
+// credit mtoyoda - sl: github.com/mtoyoda/sl
+trainTop = [ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"];
+ 
+var trainWheels = [
+    [
+        "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+        "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
+    ],
+    [
+        "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
+    ],
+    [
+        "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
+        "JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ"
+    ],
+    [
+        "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",
+        "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+        "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+    ],
+    [
+        "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+        "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",
+        "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP"
+    ],
+    [
+        "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ",
+        "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"
+    ]
+]
+
+// TODO: lol ffs i need to replace the spaces with &nbsp;
+//var trainTop1 = "      ====        ________                ___________ ";
+//var trainTop2 = "  _D _|  |_______/        \\__I_I_____===__|_________| ";
+//var trainTop3 = "   |(_)---  |   H\\________/ |   |        =|___ ___|   ";
+//var trainTop4 = "   /     |  |   H  |  |     |   |         ||_| |_||   ";
+//var trainTop5 = "  |      |  |   H  |__--------------------| [___] |   ";
+//var trainTop6 = "  | ________|___H__/__|_____/[][]~\\_______|       |   ";
+//var trainTop7 = "  |/ |   |-----------I_____I [][] []  D   |=======|__ ";
+//
+//var trainWheels = [
+//    {
+//        row1: "__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
+//        row2: " |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
+//        row3: "  \\_/      \\O=====O=====O=====O_/      \\_/            "
+//    },
+//    {
+//        row1: "__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
+//        row2: " |/-=|___|=O=====O=====O=====O   |_____/~\\___/        ",
+//        row3: "  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
+//    },
+//    {
+//        row1:"__/ =| o |=-O=====O=====O=====O \\ ____Y___________|__ ",
+//        row2:" |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
+//        row3:"  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
+//    },
+//    {
+//        row1:"__/ =| o |=-~O=====O=====O=====O\\ ____Y___________|__ ",
+//        row2:" |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
+//        row3:"  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
+//    },
+//    {
+//        row1:"__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
+//        row2:" |/-=|___|=   O=====O=====O=====O|_____/~\\___/        ",
+//        row3:"  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
+//    },
+//    {
+//        row1:"__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
+//        row2:" |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
+//        row3:"  \\_/      \\_O=====O=====O=====O/      \\_/            "
+//    }
+//]
+
+
 TerminalShell.commands['sl'] = function(terminal, flags) {
     // TODO: different types of sl flags (-a, -lh, etc etc)
-    terminal.print($('<div id="sl" style="width:80ch; display:inline-block; word-wrap:break-word;">').append($('<p>').text('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')));
+    // TODO: find a method to work out how many characters wide the text block is!
+    terminal.print($('<div id="sl" style="width:100%; display:inline-block; word-wrap:break-word;">').text('temp'));
+    // XXX: let's assume that we 83 characters boiis`
+    var colWidth = 83;
+    // XXX: let's just make it the one cart atm
+    var trainLength = trainTop[0].length;
+    // how many chars the train is offset from 0 (i.e. the left of the screen)
+    // XXX: temp, let's just make train stop at 0
+    var transformTrain = function (cOffset, colWidth, cRow) {
+        // build the train one line at a time!
+        // lol, lame-ass for loop (change to modern js pls)
+        var buildStr = "";
+        for (var i = 0; i < trainTop.length; ++i) { // train top
+            buildStr += "&nbsp;".repeat(cOffset) + trainTop[i] + "&nbsp;".repeat(colWidth-cOffset-trainTop[i].length);
+        }
+        for (var i = 0; i < trainWheels[cRow].length; ++ i) {
+            buildStr += "&nbsp;".repeat(cOffset) + trainWheels[cRow][i] + "&nbsp;".repeat(colWidth-cOffset-trainWheels[cRow][i].length);
+        }
+
+        console.log(buildStr);
+        $("#sl")[0].innerHTML = buildStr;
+        if (cOffset > 0) {
+            setTimeout( function() { transformTrain(cOffset-1, colWidth, (cRow+1)%trainWheels.length); }, 30);
+        }
+    }
+    transformTrain(colWidth-trainLength, colWidth, 0);
 }
 
 TerminalShell.commands['cat'] = function(terminal, path) {
@@ -196,29 +303,10 @@ TerminalShell.commands['wget'] = TerminalShell.commands['curl'] = function(termi
 	}
 };
 
-TerminalShell.commands['write'] =
-TerminalShell.commands['irc'] = function(terminal, nick) {
-	if (nick) {
-		$('.irc').slideUp('fast', function() {
-			$(this).remove();
-		});
-		var url = "http://widget.mibbit.com/?server=irc.foonetic.net&channel=%23xkcd";
-		if (nick) {
-			url += "&nick=" + encodeURIComponent(nick);
-		}
-		TerminalShell.commands['curl'](terminal, url).addClass('irc');
-	} else {
-		terminal.print('usage: irc <nick>');
-	}
-};
-
-TerminalShell.commands['unixkcd'] = function(terminal, nick) {
-	TerminalShell.commands['curl'](terminal, "http://www.xkcd.com/unixkcd/");
-};
-
 TerminalShell.commands['apt-get'] = function(terminal, subcmd) {
 	if (!this.sudo && (subcmd in {'update':true, 'upgrade':true, 'dist-upgrade':true})) {
-		terminal.print('E: Unable to lock the administration directory, are you root?');
+        terminal.print('E: Could not open lock file /var/lib/dpkg/lock - open (13: Permission denied)');
+        termina.print('E: Unable to lock the administration directory (/var/lib/dpkg/), are you root?');
 	} else {
 		if (subcmd == 'update') {
 			terminal.print('Reading package lists... Done');
