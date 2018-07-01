@@ -118,6 +118,11 @@ TerminalShell.pwd = Filesystem;
 TerminalShell.commands['cd'] = function(terminal, path) {
 	if (path in this.pwd) {
 		if (this.pwd[path].type == 'dir') {
+            // TODO: there's probably a trim functionwhere you can specify the delimiter . also might want to trim arbitrary number of suffixes? What about trimming ./ prefix?
+            // trim last slash (if it exists)
+            if (path[path.length-1] == "/") {
+                path = path.splice(0, path.length-1);
+            }
 			this.pwd[path].enter(terminal);
 		} else if (this.pwd[path].type == 'file') {
 			terminal.print('cd: '+path+': Not a directory');
@@ -220,6 +225,7 @@ var trainWheels = [
 
 
 TerminalShell.commands['sl'] = function(terminal, flags) {
+
     // TODO: different types of sl flags (-a, -lh, etc etc)
     // TODO: find a method to work out how many characters wide the text block is!
     terminal.print($('<div id="sl" style="width:100%; display:inline-block; word-wrap:break-word;">').text('temp'));
@@ -243,7 +249,9 @@ TerminalShell.commands['sl'] = function(terminal, flags) {
         console.log(buildStr);
         $("#sl")[0].innerHTML = buildStr;
         if (cOffset > 0) {
-            setTimeout( function() { transformTrain(cOffset-1, colWidth, (cRow+1)%trainWheels.length); }, 30);
+            setTimeout( function() { transformTrain(cOffset-1, colWidth, (cRow+1)%trainWheels.length); }, 45);
+        } else {
+            $("#sl").remove();
         }
     }
     transformTrain(colWidth-trainLength, colWidth, 0);
@@ -303,7 +311,7 @@ TerminalShell.commands['wget'] = TerminalShell.commands['curl'] = function(termi
 	}
 };
 
-TerminalShell.commands['apt-get'] = function(terminal, subcmd) {
+TerminalShell.commands['apt'] = TerminalShell.commands['apt-get'] = function(terminal, subcmd) {
 	if (!this.sudo && (subcmd in {'update':true, 'upgrade':true, 'dist-upgrade':true})) {
         terminal.print('E: Could not open lock file /var/lib/dpkg/lock - open (13: Permission denied)');
         termina.print('E: Unable to lock the administration directory (/var/lib/dpkg/), are you root?');
