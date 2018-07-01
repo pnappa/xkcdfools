@@ -145,113 +145,114 @@ TerminalShell.commands['ls'] = function(terminal, path) {
 };
 
 
-// credit mtoyoda - sl: github.com/mtoyoda/sl
-trainTop = [ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"];
- 
+// ascii art credit mtoyoda - sl: github.com/mtoyoda/sl
+var trainTop = ["      ====        ________                ___________ ",
+"  _D _|  |_______/        \\__I_I_____===__|_________| ",
+"   |(_)---  |   H\\________/ |   |        =|___ ___|   ",
+"   /     |  |   H  |  |     |   |         ||_| |_||   ",
+"  |      |  |   H  |__--------------------| [___] |   ",
+"  | ________|___H__/__|_____/[][]~\\_______|       |   ",
+"  |/ |   |-----------I_____I [][] []  D   |=======|__ "
+]
+//
 var trainWheels = [
     [
-        "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
-        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
-        "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
+        "__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
+        " |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
+        "  \\_/      \\O=====O=====O=====O_/      \\_/            "
     ],
     [
-        "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
-        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
-        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
+        "__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
+        " |/-=|___|=O=====O=====O=====O   |_____/~\\___/        ",
+        "  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
     ],
     [
-        "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
-        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
-        "JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ"
+        "__/ =| o |=-O=====O=====O=====O \\ ____Y___________|__ ",
+        " |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
+        "  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
     ],
     [
-        "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",
-        "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
-        "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+        "__/ =| o |=-~O=====O=====O=====O\\ ____Y___________|__ ",
+        " |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
+        "  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
     ],
     [
-        "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
-        "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",
-        "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP"
+        "__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
+        " |/-=|___|=   O=====O=====O=====O|_____/~\\___/        ",
+        "  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
     ],
     [
-        "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ",
-        "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
-        "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"
+        "__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
+        " |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
+        "  \\_/      \\_O=====O=====O=====O/      \\_/            "
     ]
 ]
 
-// TODO: lol ffs i need to replace the spaces with &nbsp;
-//var trainTop1 = "      ====        ________                ___________ ";
-//var trainTop2 = "  _D _|  |_______/        \\__I_I_____===__|_________| ";
-//var trainTop3 = "   |(_)---  |   H\\________/ |   |        =|___ ___|   ";
-//var trainTop4 = "   /     |  |   H  |  |     |   |         ||_| |_||   ";
-//var trainTop5 = "  |      |  |   H  |__--------------------| [___] |   ";
-//var trainTop6 = "  | ________|___H__/__|_____/[][]~\\_______|       |   ";
-//var trainTop7 = "  |/ |   |-----------I_____I [][] []  D   |=======|__ ";
-//
-//var trainWheels = [
-//    {
-//        row1: "__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
-//        row2: " |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
-//        row3: "  \\_/      \\O=====O=====O=====O_/      \\_/            "
-//    },
-//    {
-//        row1: "__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
-//        row2: " |/-=|___|=O=====O=====O=====O   |_____/~\\___/        ",
-//        row3: "  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
-//    },
-//    {
-//        row1:"__/ =| o |=-O=====O=====O=====O \\ ____Y___________|__ ",
-//        row2:" |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
-//        row3:"  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
-//    },
-//    {
-//        row1:"__/ =| o |=-~O=====O=====O=====O\\ ____Y___________|__ ",
-//        row2:" |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
-//        row3:"  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
-//    },
-//    {
-//        row1:"__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
-//        row2:" |/-=|___|=   O=====O=====O=====O|_____/~\\___/        ",
-//        row3:"  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
-//    },
-//    {
-//        row1:"__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
-//        row2:" |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
-//        row3:"  \\_/      \\_O=====O=====O=====O/      \\_/            "
-//    }
-//]
+var trainCoal = [
+"                              ",
+"                              ",
+"    _________________         ",
+"   _|                \\_____A  ",
+" =|                        |  ",
+" -|                        |  ",
+"__|________________________|_ ",
+"|__________________________|_ ",
+"   |_D__D__D_|  |_D__D__D_|   ",
+"    \\_/   \\_/    \\_/   \\_/    "
+]
 
 
 TerminalShell.commands['sl'] = function(terminal, flags) {
+	terminal.setWorking(true);
 
     // TODO: different types of sl flags (-a, -lh, etc etc)
-    // TODO: find a method to work out how many characters wide the text block is!
-    terminal.print($('<div id="sl" style="width:100%; display:inline-block; word-wrap:break-word;">').text('temp'));
-    // XXX: let's assume that we 83 characters boiis`
-    var colWidth = 83;
+    // put some spaces in to potentially force a wrap
+    terminal.print($('<div id="sl" style="width:100%; white-space:pre-wrap; display:inline-block; word-wrap:break-word;">').text('                                                                                                                                                                                '));
+
+    // calculate the number of text columns
+    var slWidth = $("#sl")[0].clientWidth;
+    console.log("width of terminal text", slWidth);
+    terminal.print($('<span id="spanno" style="padding:0; position:absolute; top:100px;">').text(' '));
+    var charWidth = $("#spanno")[0].clientWidth;
+    console.log("width of single monospace char", charWidth);
+    $("#spanno")[0].remove();
+    var colWidth = Math.floor(slWidth/charWidth);
+
     // XXX: let's just make it the one cart atm
     var trainLength = trainTop[0].length;
-    // how many chars the train is offset from 0 (i.e. the left of the screen)
-    // XXX: temp, let's just make train stop at 0
+
+    // recursive function to draw and update the train
     var transformTrain = function (cOffset, colWidth, cRow) {
+        var stopLimit = -trainLength;
         // build the train one line at a time!
         // lol, lame-ass for loop (change to modern js pls)
         var buildStr = "";
-        for (var i = 0; i < trainTop.length; ++i) { // train top
-            buildStr += "&nbsp;".repeat(cOffset) + trainTop[i] + "&nbsp;".repeat(colWidth-cOffset-trainTop[i].length);
-        }
-        for (var i = 0; i < trainWheels[cRow].length; ++ i) {
-            buildStr += "&nbsp;".repeat(cOffset) + trainWheels[cRow][i] + "&nbsp;".repeat(colWidth-cOffset-trainWheels[cRow][i].length);
+        // train is right of origin
+        if (cOffset >= 0) {
+            // pad train to be righter
+            for (var i = 0; i < trainTop.length; ++i) { // train top
+                buildStr += " ".repeat(cOffset) + trainTop[i] + "<br>";
+            }
+            for (var i = 0; i < trainWheels[cRow].length; ++ i) {
+                buildStr += " ".repeat(cOffset) + trainWheels[cRow][i] + "<br>";
+            }
+        } else {
+            // need to instead cut off some of the train
+            for (var i = 0; i < trainTop.length; ++i) { // train top
+                buildStr += trainTop[i].substr(Math.abs(cOffset)) + "<br>";
+            }
+            for (var i = 0; i < trainWheels[cRow].length; ++ i) {
+                buildStr += trainWheels[cRow][i].substr(Math.abs(cOffset)) + "<br>";
+            }
         }
 
-        console.log(buildStr);
         $("#sl")[0].innerHTML = buildStr;
-        if (cOffset > 0) {
+        // stop moving the train when we move everything offscreen
+        if (cOffset > stopLimit) {
             setTimeout( function() { transformTrain(cOffset-1, colWidth, (cRow+1)%trainWheels.length); }, 45);
         } else {
             $("#sl").remove();
+            terminal.setWorking(false);
         }
     }
     transformTrain(colWidth-trainLength, colWidth, 0);
@@ -537,5 +538,6 @@ $(document).ready(function() {
 			Terminal.runCommand('cat welcome.txt');
 		});
         Terminal.promptActive = true;
+        $('#screen').triggerHandler('cli-ready');
 	});
 });

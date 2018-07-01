@@ -111,7 +111,7 @@ var Terminal = {
 		cursor_style:		'block',
 		prompt:				'guest@pat.sh $ ',
 		spinnerCharacters:	['|','/','-','\\'],
-		spinnerSpeed:		250,
+		spinnerSpeed:		100,
 		typingSpeed:		50
 	},
 	
