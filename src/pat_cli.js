@@ -159,16 +159,11 @@ var trainWheels = [
     [
         "__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
         " |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
-        "  \\_/      \\O=====O=====O=====O_/      \\_/            "
+        "  \\_/      \\_O=====O=====O=====O/      \\_/            "
     ],
     [
         "__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
-        " |/-=|___|=O=====O=====O=====O   |_____/~\\___/        ",
-        "  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
-    ],
-    [
-        "__/ =| o |=-O=====O=====O=====O \\ ____Y___________|__ ",
-        " |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
+        " |/-=|___|=   O=====O=====O=====O|_____/~\\___/        ",
         "  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
     ],
     [
@@ -177,38 +172,45 @@ var trainWheels = [
         "  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
     ],
     [
+        "__/ =| o |=-O=====O=====O=====O \\ ____Y___________|__ ",
+        " |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
+        "  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
+    ],
+    [
         "__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
-        " |/-=|___|=   O=====O=====O=====O|_____/~\\___/        ",
+        " |/-=|___|=O=====O=====O=====O   |_____/~\\___/        ",
         "  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/            "
     ],
     [
         "__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ ",
         " |/-=|___|=    ||    ||    ||    |_____/~\\___/        ",
-        "  \\_/      \\_O=====O=====O=====O/      \\_/            "
+        "  \\_/      \\O=====O=====O=====O_/      \\_/            "
     ]
-]
+];
 
-var trainCoal = [
-"                              ",
-"                              ",
-"    _________________         ",
-"   _|                \\_____A  ",
-" =|                        |  ",
-" -|                        |  ",
-"__|________________________|_ ",
-"|__________________________|_ ",
-"   |_D__D__D_|  |_D__D__D_|   ",
-"    \\_/   \\_/    \\_/   \\_/    "
-]
+var trainCoalTop = [
+    "                              ",
+    "                              ",
+    "    _________________         ",
+    "   _|                \\_____A  ",
+    " =|                        |  ",
+    " -|                        |  ",
+    "__|________________________|_ "
+];
+var trainCoalWheels = [
+    "|__________________________|_ ",
+    "   |_D__D__D_|  |_D__D__D_|   ",
+    "    \\_/   \\_/    \\_/   \\_/    "
+];
 
 
 TerminalShell.commands['sl'] = function(terminal, flags) {
 	terminal.setWorking(true);
 
     // TODO: different types of sl flags (-a, -lh, etc etc)
-    // put some spaces in to potentially force a wrap
+    
+    // put some spaces in to potentially force a wrap (idk lol, might be important who knows)
     terminal.print($('<div id="sl" style="width:100%; white-space:pre-wrap; display:inline-block; word-wrap:break-word;">').text('                                                                                                                                                                                '));
-
     // calculate the number of text columns
     var slWidth = $("#sl")[0].clientWidth;
     console.log("width of terminal text", slWidth);
@@ -223,31 +225,21 @@ TerminalShell.commands['sl'] = function(terminal, flags) {
 
     // recursive function to draw and update the train
     var transformTrain = function (cOffset, colWidth, cRow) {
-        var stopLimit = -trainLength;
         // build the train one line at a time!
-        // lol, lame-ass for loop (change to modern js pls)
         var buildStr = "";
-        // train is right of origin
-        if (cOffset >= 0) {
-            // pad train to be righter
-            for (var i = 0; i < trainTop.length; ++i) { // train top
-                buildStr += " ".repeat(cOffset) + trainTop[i] + "<br>";
-            }
-            for (var i = 0; i < trainWheels[cRow].length; ++ i) {
-                buildStr += " ".repeat(cOffset) + trainWheels[cRow][i] + "<br>";
-            }
-        } else {
-            // need to instead cut off some of the train
-            for (var i = 0; i < trainTop.length; ++i) { // train top
-                buildStr += trainTop[i].substr(Math.abs(cOffset)) + "<br>";
-            }
-            for (var i = 0; i < trainWheels[cRow].length; ++ i) {
-                buildStr += trainWheels[cRow][i].substr(Math.abs(cOffset)) + "<br>";
-            }
+        // need to instead cut off some of the train
+        for (var i = 0; i < trainTop.length; ++i) { // train top
+            var tmpStr = " ".repeat(cOffset >= 0 ? cOffset : 0) + trainTop[i].substring(-cOffset);
+            buildStr += tmpStr.substr(0, colWidth-1) + "<br>";
+        }
+        for (var i = 0; i < trainWheels[cRow].length; ++ i) {
+            var tmpStr = " ".repeat(cOffset >= 0 ? cOffset : 0) + trainWheels[cRow][i].substring(-cOffset);
+            buildStr += tmpStr.substr(0, colWidth-1) + "<br>";
         }
 
         $("#sl")[0].innerHTML = buildStr;
         // stop moving the train when we move everything offscreen
+        var stopLimit = -trainLength;
         if (cOffset > stopLimit) {
             setTimeout( function() { transformTrain(cOffset-1, colWidth, (cRow+1)%trainWheels.length); }, 45);
         } else {
@@ -255,7 +247,7 @@ TerminalShell.commands['sl'] = function(terminal, flags) {
             terminal.setWorking(false);
         }
     }
-    transformTrain(colWidth-trainLength, colWidth, 0);
+    transformTrain(colWidth, colWidth, 0);
 }
 
 TerminalShell.commands['cat'] = function(terminal, path) {
