@@ -1,2 +1,11 @@
 sl - install the locamotive program pls!!
 stop this CTRL stealing - can't bloody do ctrl-l
+add --no-preserve-root to rm -rf
+    - also add I/O errors to rm -rf --no-preserve-root /
+        - as in removing /proc/XXX etc etc
+find out why everything in jQuery is .one() [i swear it should be on()]
+
+Commands:
+    cmatrix
+    screenfetch
+    pacman (i.e. arch flavoured pacman)

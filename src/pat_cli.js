@@ -205,6 +205,7 @@ var trainCoalWheels = [
 
 
 TerminalShell.commands['sl'] = function(terminal, flags) {
+    // prevent the user from typing in the next command (i.e. as sl does)
 	terminal.setWorking(true);
 
     // TODO: different types of sl flags (-a, -lh, etc etc)
@@ -258,7 +259,7 @@ TerminalShell.commands['cat'] = function(terminal, path) {
 			terminal.print('cat: '+path+': Is a directory');
 		}
 	} else {
-		terminal.print('You\'re a kitty!');
+		terminal.print('meow');
 	}
 };
 
@@ -287,6 +288,7 @@ TerminalShell.commands['rm'] = function(terminal, flags, path) {
 	}
 };
 
+// TODO: these don't seem to work too well!
 TerminalShell.commands['wget'] = TerminalShell.commands['curl'] = function(terminal, dest) {
 	if (dest) {
 		terminal.setWorking(true);
