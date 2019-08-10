@@ -218,7 +218,7 @@ TerminalShell.commands['sl'] = function(terminal, flags) {
     terminal.print($('<span id="spanno" style="padding:0; position:absolute; top:100px;">').text(' '));
     var charWidth = $("#spanno")[0].clientWidth;
     console.log("width of single monospace char", charWidth);
-    $("#spanno")[0].remove();
+    $("#spanno").remove();
     var colWidth = Math.floor(slWidth/charWidth);
 
     // XXX: let's just make it the one cart atm

@@ -312,7 +312,8 @@ var Terminal = {
 	},
 	
 	clear: function() {
-		$('#display').html('');
+        document.getElementById("display").innerHTML = "";
+        //$('#display').html('');
 	},
 	
 	addCharacter: function(character) {
@@ -401,12 +402,14 @@ var Terminal = {
 
 	print: function(text) {
 		if (!text) {
-			$('#display').append($('<div>'));
+            document.getElementById("display").insertAdjacentHTML("<div></div>");
+			//$('#display').append($('<div>'));
 		} else if( text instanceof jQuery ) {
 			$('#display').append(text);
 		} else {
 			var av = Array.prototype.slice.call(arguments, 0);
-			$('#display').append($('<p>').text(av.join(' ')));
+            document.getElementById("display").insertAdjacentText("beforeend", av.join(' '));
+			//$('#display').append($('<p>').text(av.join(' ')));
 		}
 		this.jumpToBottom();
 	},
